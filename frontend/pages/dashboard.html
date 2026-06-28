@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensus 5S - Visão Geral</title>
+    <link rel="icon" type="image/png" href="../assets/application.png">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f8fafc; margin: 0; }
+        .dash-container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+        .top-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
+        .mini-card { background: #fff; padding: 15px 20px; border-radius: 8px; border: 1px solid #e5e5e5; }
+        .mini-card span { font-size: 11px; color: #888; text-transform: uppercase; display: block; }
+        .mini-card strong { font-size: 15px; color: #1e293b; display: block; margin-top: 4px; }
+        .section-title { text-align: center; font-size: 22px; font-weight: bold; margin: 30px 0 20px 0; color: #000; }
+        .main-chart-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 25px; margin-bottom: 25px; }
+        .main-chart-card h3 { font-size: 14px; margin: 0 0 5px 0; color: #1e293b; }
+        .main-chart-card span { font-size: 11px; color: #a0aec0; }
+        .chart-wrapper { width: 100%; height: 260px; margin-top: 15px; position: relative; }
+        .bottom-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px; }
+        .stat-card span { font-size: 12px; color: #a0aec0; display: block; }
+        .stat-card h2 { font-size: 24px; margin: 8px 0 4px 0; color: #000; }
+        .stat-card p { font-size: 11px; margin: 0; color: #718096; }
+        .alert-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .alert-info h4 { font-size: 11px; color: #a0aec0; margin: 0 0 8px 0; text-transform: uppercase; }
+        .alert-info p { font-size: 13px; font-weight: 600; margin: 0 0 4px 0; color: #000; }
+        .alert-info span { font-size: 11px; color: #e53e3e; font-weight: 500; }
+        .btn-black-sm { padding: 8px 16px; background: #000; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="#" style="font-weight: bold; color: #000000;">Visão Geral</a></li>
+            <li><a href="checklist.html">Checklist 5S</a></li>
+            <li><a href="setores.html">Setores</a></li>
+            <li><a href="sobre-gestao.html">Guia da Metodologia</a></li>
+        </ul>
+    </nav>
+    <div class="dash-container">
+        <div class="top-stats">
+            <div class="mini-card">
+                <span>Última Auditoria</span>
+                <strong id="topDate">Carregando...</strong>
+            </div>
+            <div class="mini-card">
+                <span>Status do 5S</span>
+                <strong id="topStatus" style="color: #a0aec0;">Sem Dados</strong>
+            </div>
+            <div class="mini-card">
+                <span>Ações Pendentes</span>
+                <strong id="totalTasksCard" style="color: #000;">0 tarefas</strong>
+            </div>
+        </div>
+        <div class="section-title">Quick Stats</div>
+        <div class="main-chart-card">
+            <h3>Tendência de Desempenho</h3>
+            <span>Rendimento Histórico das Auditorias</span>
+            <div class="chart-wrapper">
+                <canvas id="lineChartPerformance"></canvas>
+            </div>
+        </div>
+        <div class="bottom-stats">
+            <div class="stat-card">
+                <span>Total de Auditorias</span>
+                <h2 id="totalAuditoriasCard">0</h2>
+                <p>Ciclos ativos no sistema</p>
+            </div>
+            <div class="stat-card">
+                <span>Setores Mapeados</span>
+                <h2 id="totalSectorsCard">2</h2>
+                <p>Áreas físicas monitoradas</p>
+            </div>
+            <div class="stat-card">
+                <span>Índice Geral 5S</span>
+                <h2 id="bottomScore">0%</h2>
+                <p id="bottomDesc">Aguardando checklist</p>
+            </div>
+        </div>
+        <div class="alert-card">
+            <div class="alert-info">
+                <h4>Alertas do Ambiente</h4>
+                <p id="alertMessage">Nenhum desvio crítico identificado no momento.</p>
+                <span id="alertPriority" style="color: #10b981;">Ambiente em Conformidade</span>
+            </div>
+            <button class="btn-black-sm" onclick="criarTarefaPlanoAcao()">Criar Tarefa</button>
+        </div>
+    </div>
+    <script>
+        let contadorTarefas = 0;
+        function criarTarefaPlanoAcao() {
+            contadorTarefas++;
+            document.getElementById('totalTasksCard').textContent = `${contadorTarefas} tarefas`;
+            alert(`Sucesso! Uma nova tarefa corretiva foi enviada para o Plano de Ação.`);
+        }
+        document.addEventListener("DOMContentLoaded", async function() {
+            try {
+                const secResponse = await fetch("http://localhost:3000/api/setores");
+                if (secResponse.ok) {
+                    const setores = await secResponse.json();
+                    document.getElementById('totalSectorsCard').textContent = setores.length;
+                }
+                const listResponse = await fetch("http://localhost:3000/api/auditorias");
+                let dadosGrafico = [];
+                let labelsGrafico = [];
+                if (listResponse.ok) {
+                    const todasAuditorias = await listResponse.json();
+                    document.getElementById('totalAuditoriasCard').textContent = todasAuditorias.length;
+                    todasAuditorias.forEach((aud, index) => {
+                        dadosGrafico.push(aud.percentualGeral);
+                        labelsGrafico.push(`Aud. ${index + 1}`);
+                    });
+                }
+                const response = await fetch("http://localhost:3000/api/auditorias/ultima");
+                if (!response.ok) {
+                    renderChart([0], ["Sem dados"]);
+                    document.getElementById('topDate').textContent = "Nenhuma realizada";
+                    return;
+                }
+                const auditoria = await response.json();
+                const score = auditoria.percentualGeral;
+                document.getElementById('bottomScore').textContent = `${score}%`;
+                document.getElementById('topDate').textContent = `Hoje, ${auditoria.data}`;
+                let statusText = "Crítico"; let statusColor = "#ff7675";
+                let alertMsg = "Materiais desalinhados e desorganização identificados no espaço comum.";
+                let alertPrior = "Prioridade: Alta";
+                if (score >= 70) {
+                    statusText = "Conforme"; statusColor = "#10b981";
+                    alertMsg = "O setor cumpre as metas estabelecidas da metodologia.";
+                    alertPrior = "Prioridade: Nenhuma (Manter Rotina)";
+                }
+                const statusElement = document.getElementById('topStatus');
+                statusElement.textContent = statusText; statusElement.style.color = statusColor;
+                document.getElementById('bottomDesc').textContent = `Ciclo de avaliação em ${auditoria.nomeSetor || 'Geral'}`;
+                document.getElementById('alertMessage').textContent = alertMsg;
+                const priorityEl = document.getElementById('alertPriority');
+                priorityEl.textContent = alertPrior; priorityEl.style.color = score >= 70 ? "#10b981" : "#e53e3e";
+                renderChart(dadosGrafico, labelsGrafico);
+            } catch (error) {
+                console.error(error);
+                renderChart([0], ["Erro"]);
+            }
+        });
+        function renderChart(dataPoints, labelPoints) {
+            const ctx = document.getElementById('lineChartPerformance').getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 240);
+            gradient.addColorStop(0, 'rgba(30, 41, 59, 0.1)');
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labelPoints,
+                    datasets: [{
+                        label: 'Índice Geral %',
+                        data: dataPoints,
+                        borderColor: '#1e293b',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#1e293b',
+                        tension: 0.3,
+                        fill: true,
+                        backgroundColor: gradient
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { min: 0, max: 100 }, x: { grid: { display: false } } }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

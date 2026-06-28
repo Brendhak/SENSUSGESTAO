@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensus 5S - Checklist de Auditoria</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="icon" type="image/png" href="../assets/application.png">
+    <style>
+        .audit-container { display: flex; max-width: 1200px; margin: 30px auto; gap: 30px; padding: 0 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; }
+        .audit-sidebar { width: 280px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e5e5e5; height: fit-content; }
+        .audit-sidebar ul { list-style: none; padding: 0; }
+        .audit-sidebar li { padding: 12px; font-size: 13px; cursor: pointer; border-radius: 4px; margin-bottom: 5px; font-weight: 500; }
+        .audit-sidebar li.active { background: #f0f0f0; font-weight: bold; color: #000; }
+        .audit-content { flex: 1; background: #fff; padding: 30px; border-radius: 8px; border: 1px solid #e5e5e5; }
+        .senso-section { display: none; }
+        .senso-section.active { display: block; }
+        .question-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid #e5e5e5; gap: 20px; }
+        .question-text-block { display: flex; flex-direction: column; }
+        .question-title { font-size: 13px; font-weight: 600; }
+        .question-desc { font-size: 11px; color: #666666; margin-top: 2px; }
+        .opt-buttons { display: flex; gap: 8px; }
+        .opt-btn { padding: 8px 14px; border-radius: 6px; border: 1px solid #e5e5e5; background: #fff; cursor: pointer; font-size: 12px; font-weight: 500; transition: all 0.2s ease; }
+        .opt-btn.yes.active { background: #2ecc71; color: white; border-color: #2ecc71; }
+        .opt-btn.no.active { background: #ff7675; color: white; border-color: #ff7675; }
+        .sticky-score { position: fixed; bottom: 20px; right: 20px; background: #000; color: #fff; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); width: 160px; z-index: 999; }
+        .btn-black { padding: 12px 24px; background: #000; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        @media (max-width: 768px) { .audit-container { flex-direction: column; } .audit-sidebar { width: 100%; } }
+    </style>
+</head>
+<body> 
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Visão Geral</a></li>
+            <li><a href="#" style="font-weight: bold; color: #000000;">Checklist 5S</a></li>
+            <li><a href="setores.html">Setores</a></li>
+            <li><a href="sobre-gestao.html">Guia da Metodologia</a></li>
+        </ul>
+    </nav>
+    <div class="audit-container">
+        <aside class="audit-sidebar">
+            <h4 style="font-size: 12px; text-transform: uppercase; margin-bottom: 15px; color: #666666;">Etapas do Checklist</h4>
+            <ul id="sensoMenu">
+                <li class="active" onclick="switchSenso(0)">Seiri (Utilização)</li>
+                <li onclick="switchSenso(1)">Seiton (Organização)</li>
+                <li onclick="switchSenso(2)">Seiso (Limpeza)</li>
+                <li onclick="switchSenso(3)">Seiketsu (Padronização)</li>
+                <li onclick="switchSenso(4)">Shitsuke (Disciplina)</li>
+            </ul>
+        </aside>
+        <main class="audit-content">
+            <h2>Plataforma de Monitoramento & Avaliação 5S</h2>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 25px;">Marque a conformidade de cada item com base na inspeção visual realizada no setor selecionado.</p>
+            <form id="auditForm">
+                <div class="senso-section active" id="senso0">
+                    <h3 style="font-size: 14px; margin-bottom: 15px; color: #666666;">Seiri - Utilização</h3>
+                    <div class="question-item">
+                        <div class="question-text-block">
+                            <span class="question-title">Existem materiais desnecessários ou sem uso no ambiente?</span>
+                            <span class="question-desc">Identificação e descarte de itens obsoletos, quebrados ou duplicados.</span>
+                        </div>
+                        <div class="opt-buttons">
+                            <button type="button" class="opt-btn yes" onclick="setQuestionScore(this, 1)">Conforme</button>
+                            <button type="button" class="opt-btn no" onclick="setQuestionScore(this, 0)">Não Conforme</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="senso-section" id="senso1">
+                    <h3 style="font-size: 14px; margin-bottom: 15px; color: #666666;">Seiton - Organização</h3>
+                    <div class="question-item">
+                        <div class="question-text-block">
+                            <span class="question-title">Os objetos, arquivos e ferramentas possuem locais fixos e demarcados?</span>
+                            <span class="question-desc">Organização e identificação visual rápida que facilita o acesso seguro aos itens.</span>
+                        </div>
+                        <div class="opt-buttons">
+                            <button type="button" class="opt-btn yes" onclick="setQuestionScore(this, 1)">Conforme</button>
+                            <button type="button" class="opt-btn no" onclick="setQuestionScore(this, 0)">Não Conforme</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="senso-section" id="senso2">
+                    <h3 style="font-size: 14px; margin-bottom: 15px; color: #666666;">Seiso - Limpeza</h3>
+                    <div class="question-item">
+                        <div class="question-text-block">
+                            <span class="question-title">O chão, bancadas, computadores e armários estão limpos e conservados?</span>
+                            <span class="question-desc">Ambiente livre de sujeiras acumuladas e descarte correto de resíduos.</span>
+                        </div>
+                        <div class="opt-buttons">
+                            <button type="button" class="opt-btn yes" onclick="setQuestionScore(this, 1)">Conforme</button>
+                            <button type="button" class="opt-btn no" onclick="setQuestionScore(this, 0)">Não Conforme</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="senso-section" id="senso3">
+                    <h3 style="font-size: 14px; margin-bottom: 15px; color: #666666;">Seiketsu - Padronização</h3>
+                    <div class="question-item">
+                        <div class="question-text-block">
+                            <span class="question-title">As regras de conservação e higiene do ambiente estão claras e padronizadas?</span>
+                            <span class="question-desc">Existência de avisos visuais, checklists de rotina ou normas explícitas adotadas.</span>
+                        </div>
+                        <div class="opt-buttons">
+                            <button type="button" class="opt-btn yes" onclick="setQuestionScore(this, 1)">Conforme</button>
+                            <button type="button" class="opt-btn no" onclick="setQuestionScore(this, 0)">Não Conforme</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="senso-section" id="senso4">
+                    <h3 style="font-size: 14px; margin-bottom: 15px; color: #666666;">Shitsuke - Disciplina</h3>
+                    <div class="question-item">
+                        <div class="question-text-block">
+                            <span class="question-title">Os colaboradores seguem as rotinas organizacionais do 5S espontaneamente?</span>
+                            <span class="question-desc">Cultura corporativa contínua onde as auditorias anteriores geraram hábitos de zelo natural.</span>
+                        </div>
+                        <div class="opt-buttons">
+                            <button type="button" class="opt-btn yes" onclick="setQuestionScore(this, 1)">Conforme</button>
+                            <button type="button" class="opt-btn no" onclick="setQuestionScore(this, 0)">Não Conforme</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 40px; display: flex; justify-content: flex-end;">
+                    <button type="submit" class="btn-black">Salvar Auditoria</button>
+                </div>
+            </form>
+        </main>
+    </div>
+    <div class="sticky-score">
+        <div style="font-size: 10px; text-transform: uppercase; opacity: 0.8; font-weight: bold;">Índice Geral 5S</div>
+        <div id="scoreLabel" style="font-size: 26px; font-weight: bold;">0%</div>
+        <div id="statusLabel" style="font-size: 12px; margin-top: 4px; font-weight: 500;">Crítico</div>
+    </div>
+    <script>
+        const totalQuestions = 5;
+        let scores = Array(totalQuestions).fill(null);
+        function switchSenso(activeIndex) {
+            document.querySelectorAll('#sensoMenu li').forEach((item, index) => {
+                item.className = index === activeIndex ? 'active' : '';
+            });
+            document.querySelectorAll('.senso-section').forEach((section, index) => {
+                section.className = index === activeIndex ? 'senso-section active' : 'senso-section';
+            });
+        }
+        function setQuestionScore(buttonElement, scoreValue) {
+            buttonElement.parentElement.querySelectorAll('.opt-btn').forEach(btn => btn.classList.remove('active'));
+            buttonElement.classList.add('active');
+            const sectionElement = buttonElement.closest('.senso-section');
+            if (!sectionElement) return;
+            const sectionIndex = parseInt(sectionElement.id.replace('senso', ''), 10);
+            scores[sectionIndex] = scoreValue;
+            calculateTotalScore();
+        }
+        function calculateTotalScore() {
+            const answeredQuestions = scores.filter(score => score !== null);
+            if (answeredQuestions.length === 0) return;
+            const totalCurrentPoints = answeredQuestions.reduce((acc, curr) => acc + curr, 0);
+            const percentage = Math.round((totalCurrentPoints / totalQuestions) * 100);
+            document.getElementById('scoreLabel').textContent = `${percentage}%`;
+            document.getElementById('statusLabel').textContent = percentage >= 70 ? "Bom" : "Crítico";
+        }
+        document.getElementById('auditForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            if (scores.filter(score => score !== null).length < totalQuestions) {
+                alert("Por favor, responda todas as etapas antes de salvar."); return;
+            }
+            const totalCurrentPoints = scores.reduce((acc, curr) => acc + curr, 0);
+            const percentage = Math.round((totalCurrentPoints / totalQuestions) * 100);
+            const dadosAuditoria = {
+                percentualGeral: percentage, setorId: 1,
+                detalhes: { seiri: scores[0], seiton: scores[1], seiso: scores[2], seiketsu: scores[3], shitsuke: scores[4] },
+                data: new Date().toLocaleDateString('pt-BR')
+            };
+            try {
+                const response = await fetch("http://localhost:3000/api/auditorias", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dadosAuditoria)
+                });
+                if (response.ok) {
+                    alert('Auditoria salva com sucesso no Banco!');
+                    window.location.href = "dashboard.html";
+                }
+            } catch (error) { alert("Erro ao conectar com o servidor."); }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensus Gestão - Login</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/png" href="assets/application.png">
+    
+    <style>
+        .login-wrapper { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .hero-section { text-align: center; padding: 60px 20px; }
+        .hero-section h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+        .hero-section p { color: var(--text-muted); font-size: 13px; max-width: 500px; margin: 0 auto; }
+        .login-layout { display: flex; gap: 80px; margin-top: 20px; justify-content: center; align-items: flex-start; }
+        .login-info { flex: 1; max-width: 400px; }
+        .login-info h2 { font-size: 28px; margin-bottom: 8px; }
+        .login-form-card { width: 100%; max-width: 400px; background: var(--card-bg); padding: 30px; border-radius: 8px; border: 1px solid var(--border-color); }
+        @media (max-width: 768px) { .login-layout { flex-direction: column; gap: 40px; align-items: center; } }
+    </style>
+</head>
+<body>   
+    
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="#">Recursos</a></li>
+            <li><a href="#">Planos</a></li>
+            <li><a href="#">Suporte</a></li>
+        </ul>
+    </nav>
+    
+    <div class="login-wrapper">
+        <header class="hero-section">
+            <h1>A organização que<br>impulsiona seu caixa</h1>
+            <p>Commercial Management & 5S • Login seguro para acompanhar produtividade e crescimento.</p>
+        </header>
+
+        <main class="login-layout">
+            <section class="login-info">
+                <h2>Entrar na sua conta</h2>
+                <p>Bem-vindo(a)! Acesse em segundos.</p>
+            </section>
+            <div class="login-form-card">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="userInput">E-mail ou Usuário</label>
+                        <input type="text" id="userInput" placeholder="Digite seu e-mail ou usuário">
+                        <div class="help-text">Ex. nome@empresa.com</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="passInput">Senha</label>
+                        <input type="password" id="passInput" placeholder="Digite sua senha">
+                    </div>
+                   <button type="button" onclick="efetuarLogin()" class="btn-black" style="width: 100%; padding: 12px; background: #000; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Entrar</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

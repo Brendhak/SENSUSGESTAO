@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensus 5S - Gestão de Setores</title>
+    <link rel="icon" type="image/png" href="../assets/application.png">
+   <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; margin: 0; background-color: #f8fafc; }
+        .navbar { background: #fff; padding: 15px 30px; border-bottom: 1px solid #e5e5e5; }
+        .nav-links { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: #666; font-size: 14px; }
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: #ffffff; border: 1px solid #e5e5e5; border-radius: 12px; padding: 24px; }
+        .page-header h2 { font-size: 20px; font-weight: 600; margin: 0; }
+        .page-header p { font-size: 13px; color: #666666; margin-top: 5px; }
+        .sectors-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 40px; }
+        .sector-card { background: #ffffff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; }
+        .sector-info h3 { font-size: 16px; margin: 0 0 8px 0; color: #1e293b; }
+        .sector-info p { font-size: 13px; color: #64748b; line-height: 1.5; margin: 0; }
+        .sector-meta { margin-top: 15px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 12px; font-size: 12px; color: #94a3b8; }
+        .form-card { background: #ffffff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 24px; margin-top: 30px; }
+        .form-card h3 { font-size: 15px; margin-top: 0; margin-bottom: 20px; color: #1e293b; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #e5e5e5; border-radius: 6px; box-sizing: border-box; font-size: 13px; }
+        .form-group textarea { resize: vertical; height: 80px; }
+        .btn-black { padding: 10px 20px; background: #000; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; text-decoration: none; }
+        .btn-outline-sm { padding: 4px 10px; background: transparent; border: 1px solid #ff7675; color: #ff7675; border-radius: 4px; cursor: pointer; font-size: 11px; }
+        @media (max-width: 768px) { .page-header { flex-direction: column; gap: 15px; align-items: flex-start; } .sectors-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="dashboard.html">Visão Geral</a></li>
+            <li><a href="checklist.html">Checklist 5S</a></li>
+            <li><a href="#" style="font-weight: bold; color: #000000;">Setores</a></li>
+            <li><a href="sobre-gestao.html">Guia da Metodologia</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <div>
+                <h2>Mapeamento de Setores da Organização</h2>
+                <p>Gerencie as áreas físicas e departamentos que serão submetidos às avaliações periódicas do 5S.</p>
+            </div>
+            <a href="#cadastroSetor" class="btn-black">Novo Setor</a>
+        </header>
+
+        <section class="sectors-grid">
+            <div class="sector-card">
+                <div class="sector-info">
+                    <h3>Almoxarifado Geral</h3>
+                    <p>Espaço físico de armazenamento de insumos. Exige atenção estrita aos sensos Seiri (utilização) e Seiton (organização).</p>
+                </div>
+                <div class="sector-meta">
+                    <span>Último Score: <strong style="color: #10b981;">85%</strong></span>
+                    <button class="btn-outline-sm">Excluir</button>
+                </div>
+            </div>
+
+            <div class="sector-card">
+                <div class="sector-info">
+                    <h3>Escritório Administrativo</h3>
+                    <p>Área de computadores e arquivos digitais. Foco na eliminação de excesso de papelada (Seiri) e padronização visual (Seiketsu).</p>
+                </div>
+                <div class="sector-meta">
+                    <span>Último Score: <strong style="color: #ff7675;">40%</strong></span>
+                    <button class="btn-outline-sm">Excluir</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="cadastroSetor" class="form-card">
+            <h3>Cadastrar Novo Ambiente / Setor</h3>
+        <form id="sectorForm">
+        <div class="form-group">
+            <label for="sectorName">Nome do Setor</label>
+            <input type="text" id="sectorName" placeholder="Ex: Recepção, Cozinha Operacional, Oficina..." required>
+        </div>
+        <div class="form-group">
+            <label for="sectorDesc">Descrição Física e Objetivos</label>
+            <textarea id="sectorDesc" placeholder="Descreva brevemente a finalidade deste ambiente..." required></textarea>
+        </div>
+        <div style="display: flex; justify-content: flex-end;">
+            <button type="submit" class="btn-black" style="border:none;">Salvar Setor</button>
+        </div>
+    </form>
+        </section>
+    </main>
+    <footer style="text-align: center; padding: 30px 20px; font-size: 11px; color: #94a3b8;">
+        © 2026 Sensus 5S • Brenda, Wesllys e Saranna • TCC ADS UEMA
+    </footer>
+
+<!-- Deixe o final do setores.html exatamente assim: -->
+    <script src="../js/setores.js"></script>
+</body>
+</html>
+
