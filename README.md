@@ -1,6 +1,6 @@
 # 📊 Sensus 5S — Plataforma de Monitoramento & Avaliação
 
-> **Projeto de Extensão / TCC** > Sistema Full-Stack para otimização, auditoria e mapeamento de conformidade baseado na metodologia ágil japonesa 5S.
+> **TCC** > Sistema Full-Stack para otimização, auditoria e mapeamento de conformidade baseado na metodologia ágil japonesa 5S.
 
 ---
 
@@ -26,15 +26,83 @@ SENSUSGESTAO/
 ├── frontend/         # Interface do Usuário (HTML5, CSS3 Vanilla, JavaScript ES6)
 └── vercel.json       # Configuração de deploy estático
 
+````
 
+# SensusGestão 📊
 
+O **SensusGestão** é uma plataforma web Full-Stack projetada para digitalizar, monitorar e auditar a aplicação da metodologia 5S (*Seiri, Seiton, Seiso, Seiketsu e Shitsuke*) dentro de ambientes organizacionais. 
 
+O sistema substitui planilhas manuais por uma interface automatizada capaz de centralizar o mapeamento de áreas físicas (setores), coletar avaliações de conformidade de forma ágil e exibir o desempenho histórico através de gráficos dinâmicos.
 
-💾 Modelagem do Banco de Dados (Relacional)O banco de dados foi normalizado e estruturado seguindo regras rígidas de integridade referencial (ON DELETE CASCADE):TabelaFunçãoempresasSuporte multi-empresa (SaaS)usuariosGerenciamento de acessos (ADMIN / COLABORADOR)setoresÁreas físicas monitoradas dentro da empresaperguntas_checklistCadastro das perguntas base de cada SensoauditoriasCabeçalho e pontuação geral do ciclo avaliadorespostas_auditoriaItens específicos e conformidades da inspeção visual🛠️ Pré-requisitos para ExecuçãoAntes de começar, você precisará ter instalado em sua máquina:Node.js (Versão 18 ou superior)Um navegador web moderno (Edge, Chrome, Firefox)🚀 Como Rodar o Projeto (Passo a Passo)1. Clonar o RepositórioAbra o seu terminal e baixe o projeto do GitHub:Bashgit clone [https://github.com/SEU_USUARIO/sensus-5s.git](https://github.com/SEU_USUARIO/sensus-5s.git)
-cd sensus-5s
-2. Configurar e Lançar o Back-endNavegue até a pasta do servidor, instale as dependências necessárias e inicialize a API:Bashcd backend
+---
+
+## 🛠️ Tecnologias e Arquitetura
+
+O projeto adota uma **Arquitetura Cliente-Servidor Desacoplada**, onde o Front-end e o Back-end comunicam-se de forma assíncrona por meio de uma API RESTful.
+
+### Front-end (Interface)
+- **HTML5 & CSS3:** Estruturação semântica e estilização limpa focada na experiência do usuário (UX).
+- **Vanilla JavaScript (ES6+):** Lógica de comportamento do cliente e consumo da API via `fetch` assíncrono (`async/await`).
+- **Chart.js:** Renderização de gráficos dinâmicos para visualização de dados históricos.
+
+### Back-end (Servidor e API)
+- **Node.js:** Ambiente de execução focado na alta performance de requisições.
+- **Express.js:** Framework minimalista para gerenciamento de rotas e middlewares HTTP.
+- **CORS:** Gerenciamento seguro de requisições de origens cruzadas entre a interface e a API.
+
+### Banco de Dados
+- **SQLite (`sqlite3`):** Banco de dados relacional embarcado localmente. Dispensa servidores complexos, salvando as informações em um arquivo estruturado (`database.db`) e garantindo portabilidade para homologação acadêmica.
+
+---
+
+## 📦 Como Executar o Projeto
+
+### Pré-requisitos
+Antes de começar, você vai precisar ter instalado em sua máquina o [Node.js](https://nodejs.org/) e o [Git](https://git-scm.com/).
+
+### 1. Clonar o Repositório
+```bash
+git clone [https://github.com/Brendhak/sensus-5s.git](https://github.com/Brendhak/sensus-5s.git)
+cd sensus-5so de API), Cors.Banco de Dados: SQLite (sqlite3 driver assíncrono).Modelagem Conceitual: dbdiagram.io.
+````
+
+### 2. Configurar o Back-endNavegue até a pasta do servidor e instale as dependências:
+cd backend
 npm install
+
+
+### 3. Executar o ServidorInicie a API Node.js:
 npm start
+O script do banco de dados irá verificar a existência do arquivo database.db. Caso não exista, ele criará a estrutura de tabelas e carregará os setores padrão automaticamente.
 
 
-Nota: Ao rodar o npm start pela primeira vez, o script database.js criará automaticamente o arquivo físico do banco database.db e aplicará uma carga inicial de dados (Populando a empresa de teste, o usuário Brenda, os setores iniciais e as perguntas dos sensos).A API estará ativa ouvindo na porta: http://localhost:30003. Executar o Front-endComo a interface foi construída de forma estática e autônoma para evitar gargalos de cache, você possui duas opções para abrir:Opção 1: Vá até a pasta frontend/pages/ usando o explorador de arquivos e dê dois cliques sobre o arquivo dashboard.html.Opção 2 (Recomendada): Abra a pasta frontend no seu VS Code, clique com o botão direito sobre o arquivo dashboard.html e selecione Open with Live Server.🧠 Tecnologias UtilizadasFront-end: HTML5, CSS3 (Componentização Minimalista), JavaScript Moderno (Async/Await Fetch API), Chart.js (Renderização de gráficos).Back-end: Node.js, Express.js (Roteamento de API), Cors.Banco de Dados: SQLite (sqlite3 driver assíncrono).Modelagem Conceitual: dbdiagram.io.
+### 4. Executar o Front-end:
+Basta abrir o arquivo frontend/index.html no seu navegador de preferência (ou utilizar a extensão Live Server no VS Code).
+
+### ⚡ Testando a API de Forma Independente:
+Caso queira testar as rotas da API isoladamente (usando ferramentas como o Thunder Client ou Postman), os principais endpoints configurados são: 
+GET	/api/setores	Lista todos os setores cadastrados no banco
+POST	/api/setores	Cadastra um novo setor
+DELETE	/api/setores/:id	Remove um setor físico e seu histórico pelo ID
+POST	/api/auditorias	Salva uma auditoria 5S e atualiza o Score do setor
+GET	/api/auditorias/ultima	Alimenta o topo do Dashboard com a auditoria mais recente
+
+
+## ou 
+
+Fazendo a utilização da extensão **SQLite Viewer**. Cujo passo a passo para instalar no vscode está abaixo:
+1. **Instalar a Extensão:**
+   - Acesse o menu de **Extensões** no VS Code (`Ctrl + Shift + X`).
+   - Pesquise por **`SQLite Viewer`** (desenvolvido por *qwtel*) e clique em **Instalar**.
+
+2. **Abrir o Arquivo do Banco:**
+   - No explorador do VS Code, navegue até a pasta `backend/`.
+   - Dê um clique duplo sobre o arquivo **`database.db`**.
+   - A extensão abrirá uma interface gráfica amigável dividida por tabelas.
+
+3. **Visualizar os Dados:**
+   - No menu esquerdo da extensão, expanda a aba `Tables` e selecione a tabela **`setores`**.
+   - Clique na aba **`DATA`** no topo para visualizar as colunas (`id`, `name`, `description`, `score`).
+
+4. **Sincronizar Alterações (Refresh):**
+   - Como a extensão não atualiza automaticamente, sempre que cadastrar ou excluir um setor na interface web, clique no botão de **Seta Circular (↻)** no topo da tabela para recarregar os dados físicos salvos.

@@ -6,8 +6,8 @@ let sectors = [];
 
 // Executa automaticamente assim que a página é carregada no navegador
 document.addEventListener('DOMContentLoaded', () => {
-    carregarSetores(); // Busca os dados reais do SQLite
-    setupFormListener(); // Configura o formulário de cadastro
+    carregarSetores(); 
+    setupFormListener(); 
 });
 
 /**
@@ -94,8 +94,8 @@ function setupFormListener() {
             if (response.ok) {
                 console.log("[SENSUS TCC] Setor cadastrado com sucesso no SQLite!");
                 
-                form.reset(); // Reseta o formulário
-                await carregarSetores(); // Recarrega a lista trazendo o dado oficial do banco
+                form.reset(); 
+                await carregarSetores(); 
                 
                 window.scrollTo({ top: 0, behavior: 'smooth' }); // Rola para o topo
             } else {
@@ -120,7 +120,7 @@ async function deleteSector(id) {
 
             if (response.ok) {
                 console.log(`[SENSUS TCC] Setor ID ${id} deletado com sucesso do SQLite!`);
-                await carregarSetores(); // Recarrega a tela atualizada direto do banco
+                await carregarSetores(); 
             } else {
                 alert("Erro ao remover o setor no servidor.");
             }

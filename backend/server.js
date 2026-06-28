@@ -40,7 +40,7 @@ app.post('/api/setores', (req, res) => {
     });
 });
 
-// 3. Deletar um setor (CORRIGIDO: Agora é uma rota real do Express integrada ao SQLite)
+// 3. Deletar um setor 
 app.delete('/api/setores/:id', (req, res) => {
     const { id } = req.params;
     
@@ -146,7 +146,7 @@ app.post('/api/tarefas', (req, res) => {
 
 
 // ==========================================
-// INICIALIZAÇÃO DO SERVIDOR (MUITO IMPORTANTE!)
+// INICIALIZAÇÃO DO SERVIDOR 
 // ==========================================
 app.listen(PORT, () => {
     console.log(`=============================================================`);
